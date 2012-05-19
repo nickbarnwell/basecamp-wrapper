@@ -1,9 +1,21 @@
 module Basecamp
  class Attachment < Basecamp::Resource
-    parent_resources :project, :message, :milestone, :comment, :todo_item
+    parent_resources :project, :message, :milestone, :comment, :todo_item, :comment
 
     def to_xml(options = {})
       { :file => attributes, :category_id => category_id }.to_xml(options)
+    end
+
+    def download_file(path=nil)
+      unless path 
+        path = "/tmp/#{name}"
+      end
+      
+      response = Basecamp.connection.get(download_url)
+      File.open(path, 'wb') do |f|
+        f << response.body
+        f.close
+      end
     end
 
     def save
