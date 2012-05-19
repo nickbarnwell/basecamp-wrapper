@@ -17,4 +17,9 @@ module Basecamp; class TodoList < Basecamp::Resource
   def todo_items(options = {})
     @todo_items ||= TodoItem.find(:all, :params => options.merge(:todo_list_id => id))
   end
+
+  def items(options = {})
+    todo_items(options)
+  end
+  
 end; end

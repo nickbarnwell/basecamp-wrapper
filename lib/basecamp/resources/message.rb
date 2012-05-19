@@ -27,4 +27,10 @@ module Basecamp; class Message < Basecamp::Resource
   def comments(options = {})
     @comments ||= Comment.find(:all, :params => options.merge(:post_id => id))
   end
+
+  def milestone
+    if milestone_id != 0
+      return Milestone.find(milestone_id)
+    end
+  end
 end; end
